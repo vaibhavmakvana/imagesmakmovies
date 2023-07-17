@@ -4,6 +4,7 @@ import { useState } from 'react';
 export default function Home() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadError, setUploadError] = useState(false);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -25,10 +26,12 @@ export default function Home() {
         setUploadSuccess(true);
         setSelectedFile(null); // Reset selectedFile to null
       } else {
-        alert('File upload failed!');
+        setUploadError(true);
+        throw new Error('File upload failed!');
       }
     } catch (error) {
       console.error('An error occurred during file upload:', error);
+      setUploadError(true);
     }
   };
 
@@ -37,6 +40,9 @@ export default function Home() {
       <Link href='/'><h1>Makmovies Image Store</h1></Link>
       {uploadSuccess && (
         <div className="notification">Image uploaded successfully!</div>
+      )}
+      {uploadError && (
+        <div className="notification">File upload failed!</div>
       )}
       <form onSubmit={handleSubmit} className='form'>
         <input type="file" accept="image/*" onChange={handleFileChange} />
