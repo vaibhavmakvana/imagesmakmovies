@@ -1,56 +1,56 @@
-import Link from 'next/link';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [uploadError, setUploadError] = useState(false);
+  const [image, setImage] = useState(null);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+
+    reader.readAsDataURL(file);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleUpload = async () => {
+    if (!image) return;
 
-    const formData = new FormData();
-    formData.append('image', selectedFile);
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: image }),
+    });
 
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+    const data = await response.json();
 
-      if (response.ok) {
-        setUploadSuccess(true);
-        setSelectedFile(null); // Reset selectedFile to null
-      } else {
-        setUploadError(true);
-        throw new Error('File upload failed!');
-      }
-    } catch (error) {
-      console.error('An error occurred during file upload:', error);
-      setUploadError(true);
-    }
+    console.log(data.url); // Display the uploaded image URL
+
+    // Do something with the uploaded image URL, such as displaying it in the UI
   };
 
-  return (
-    <div className='container flex'>
-      <Link href='/'><h1>Makmovies Image Store</h1></Link>
-      {uploadSuccess && (
-        <div className="notification">Image uploaded successfully!</div>
-      )}
-      {uploadError && (
-        <div className="notification">File upload failed!</div>
-      )}
-      <form onSubmit={handleSubmit} className='form'>
-        <input type="file" accept="image/*" onChange={handleFileChange} />
-        <button type="submit" disabled={!selectedFile}>
-          Upload
-        </button>
-      </form>
-      <Link href="/images">View Uploaded Images</Link>
+  return (<>
+
+
+    <div className='container'>
+      <h1>Image Hosting Website</h1>
+      <input type="file" accept="image/*" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload</button>
+      {image && <img src={image} alt="Preview" />}
     </div>
+
+    <div>
+      <h1>Image Hosting Website</h1>
+      {/* ... */}
+      <Link href="/gallery" legacyBehavior>
+        <a>View Image Gallery</a>
+      </Link>
+    </div>
+  </>
+
   );
 }

@@ -1,41 +1,24 @@
-import multer from 'multer';
-import { v4 as uuidv4 } from 'uuid';
+import cloudinary from 'cloudinary';
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './public/uploads');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = `${uuidv4()}-${file.originalname}`;
-    cb(null, uniqueSuffix);
-  },
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
 });
 
-const upload = multer({ storage });
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+  try {
+    const result = await cloudinary.v2.uploader.upload(req.body.data, {
+      folder: 'image-hosting-website',
+    });
 
-export default function handler(req, res) {
-  return new Promise((resolve, reject) => {
-    upload.single('image')(req, res, (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        // File uploaded successfully
-        resolve();
-      }
-    });
-  })
-    .then(() => {
-      // Handle successful file upload here
-      res.status(200).json({ message: 'File uploaded successfully' });
-    })
-    .catch((error) => {
-      console.error('An error occurred during file upload:', error);
-      res.status(500).json({ message: 'File upload failed' });
-    });
+    return res.status(200).json({ url: result.secure_url });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
 }
