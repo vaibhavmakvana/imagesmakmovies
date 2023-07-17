@@ -34,22 +34,26 @@ export default function Home() {
   };
 
   return (<>
+    <section className='container flex'>
+      <div >
+        <div>
+          <Link href='https://makmovies.netlify.app'><h1>Makmovies Images</h1></Link>
+        </div>
+        <div className='form'>
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+          <button onClick={handleUpload}>Upload</button>
+          {image && <img src={image} alt="Preview" />}
+        </div>
 
+      </div>
 
-    <div className='container'>
-      <h1>Image Hosting Website</h1>
-      <input type="file" accept="image/*" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
-      {image && <img src={image} alt="Preview" />}
-    </div>
+      <div>
+        <Link href="/gallery" legacyBehavior>
+          <a>View Image Gallery</a>
+        </Link>
+      </div>
+    </section>
 
-    <div>
-      <h1>Image Hosting Website</h1>
-      {/* ... */}
-      <Link href="/gallery" legacyBehavior>
-        <a>View Image Gallery</a>
-      </Link>
-    </div>
   </>
 
   );
