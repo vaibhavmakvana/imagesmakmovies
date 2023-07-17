@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  font-size: 25px;
+  margin: 50px 0;
+}
+
+a:hover {
+  border-bottom: 3px solid red;
+}
+
+.notification {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: green;
+  padding: 20px;
+}
+
+h1:hover {
+  text-shadow: 0 3px 8px red;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 50px auto;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.flex2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+}
+
+.form button {
+  background-color: antiquewhite;
+  padding: 6px 20px;
+}
+
+.h1 {
+  font-size: 30px;
+}
+
+.imgbx {
+  width: 250px;
+  height: 350px;
+}
+
+.imgbx img {
+  width: 100%;
+  height: 100%;
+}
+
+.pagination{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  gap: 20px;
+}
+
+.pagination button{
+  padding: 8px 19px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.665);
+  border-radius: 5px;
+}
+.pagination button:hover{
+  background-color: rgba(218, 109, 109, 0.566);
+}
