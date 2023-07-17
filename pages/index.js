@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <div className='container flex'>
-     <Link href='https://makmovies.netlify.app'><h1>Makmovies Image Store</h1></Link> 
+      <Link href='/'><h1>Makmovies Image Store</h1></Link>
       {uploadSuccess && (
         <div className="notification">Image uploaded successfully!</div>
       )}
@@ -44,9 +44,7 @@ export default function Home() {
           Upload
         </button>
       </form>
-      <Link href="/images">
-        View Uploaded Images
-      </Link>
+      <Link href="/images">View Uploaded Images</Link>
     </div>
   );
 }

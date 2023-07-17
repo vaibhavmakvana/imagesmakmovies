@@ -19,4 +19,23 @@ export const config = {
   },
 };
 
-export default upload.single('image');
+export default function handler(req, res) {
+  return new Promise((resolve, reject) => {
+    upload.single('image')(req, res, (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        // File uploaded successfully
+        resolve();
+      }
+    });
+  })
+    .then(() => {
+      // Handle successful file upload here
+      res.status(200).json({ message: 'File uploaded successfully' });
+    })
+    .catch((error) => {
+      console.error('An error occurred during file upload:', error);
+      res.status(500).json({ message: 'File upload failed' });
+    });
+}

@@ -76,7 +76,7 @@ export async function getServerSideProps({ query }) {
     return fileB.mtime.getTime() - fileA.mtime.getTime();
   });
 
-  const imagesPerPage = 4; // Number of images per page
+  const imagesPerPage = 10; // Number of images per page
   const totalPages = Math.ceil(uploadedFiles.length / imagesPerPage);
 
   const currentPage = parseInt(query.page, 10) || 1;
